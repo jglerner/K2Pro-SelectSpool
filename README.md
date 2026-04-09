@@ -1,6 +1,8 @@
 # K2Pro-SelectSpool
 
-A Klipper macro for the **Creality K2 Pro** that selects which of the four filament spools to use by issuing the corresponding `T0`–`T3` tool change command.
+A Klipper macro for the **Creality K2 Pro** that selects which of the four CFS filament spools to use.
+
+The macro heats the extruder to **240 °C**, then issues the `T0`–`T3` tool change command so the CFS can wind out the current filament and wind in the selected one cleanly.
 
 Useful for mono-color prints where you want to pick a specific color spool at the start, or switch color mid-print.
 
@@ -15,8 +17,14 @@ SELECT_SPOOL T=2   ; use spool 2
 SELECT_SPOOL T=3   ; use spool 3
 ```
 
-The macro validates the input and raises an error if `T` is outside 0–3.
-The active spool is shown on the printer display and logged to the Klipper console.
+The macro:
+1. Heats the extruder to 240 °C and waits.
+2. Issues `Tx` — the CFS winds out the old filament and winds in the selected spool.
+3. Shows the active spool on the display and logs to the Klipper console.
+
+Input is validated; an error is raised if `T` is outside 0–3.
+
+> After the swap the extruder stays at 240 °C. Your `START_PRINT` or slicer will set the final print temperature.
 
 ---
 
